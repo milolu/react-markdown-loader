@@ -1,9 +1,10 @@
 'use strict';
-
+const loaderUtils =  require('loader-utils');
 const frontMatter = require('front-matter');
 const Prism = require('node-prismjs');
 const Remarkable = require('remarkable');
 const escapeHtml = require('remarkable/lib/common/utils').escapeHtml;
+
 
 const md = new Remarkable();
 
@@ -36,6 +37,12 @@ function codeBlockTemplate(exampleRun, exampleSrc, langClass) {
  * @returns {String}                Code block with souce and run code
  */
 function parseCodeBlock(code, lang, langPrefix, highlight) {
+  if (!lang || lang === 'render') {
+    return code;
+  }
+
+  console.log(loaderUtils.getOptions(this));
+
   let codeBlock = escapeHtml(code);
 
   if (highlight) {
